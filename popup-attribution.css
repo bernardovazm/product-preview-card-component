@@ -1,38 +1,49 @@
 /* 
       popup attribution component stylesheet
   */
-@keyframes visible {
+@keyframes visibility {
   from {
     opacity: 0;
+    pointer-events: none;
+    user-select: none;
   }
   0.1% {
+    border: 1px solid transparent;
     pointer-events: auto;
+    user-select: auto;
+  }
+  99% {
+    border: 0px none transparent;
   }
   to {
     opacity: 1;
     pointer-events: auto;
+    user-select: auto;
   }
 }
 @keyframes clickable {
   from {
     pointer-events: none;
   }
+
   to {
     pointer-events: auto;
   }
 }
 .popup-attribution {
   pointer-events: none;
-  position: fixed;
+  user-select: none;
   opacity: 0;
+  position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   z-index: 100;
   display: grid;
-  animation: clickable forwards, visible forwards, visible reverse forwards;
-  animation-duration: 1ms, 1s, 1s;
+  animation: visibility forwards, visibility forwards,
+    visibility reverse forwards;
+  animation-duration: 1s, 1s, 1s;
   animation-delay: 3s, 1s, 1ms;
   animation-play-state: running, running, paused;
   * {
@@ -50,7 +61,7 @@
   }
   &:hover ~ *:not(:hover),
   * *:not(:hover) ~ &:hover {
-    animation-play-state: running, running, paused;
+    animation-play-state: paused, running, paused;
     & * {
       animation-play-state: running, paused;
     }
@@ -82,6 +93,7 @@
     z-index: -10;
     background-color: rgba(0, 0, 0, 0.3);
   }
+
   &:has(.popup-attribution__toggle:checked) {
     animation-play-state: paused, paused, running;
     pointer-events: none;
@@ -91,6 +103,7 @@
     }
   }
 }
+
 /* dark reader fallback */
 .popup-attribution .popup-attribution__content {
   background-color: white;
