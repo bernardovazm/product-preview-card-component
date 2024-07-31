@@ -1,0 +1,97 @@
+/* 
+      popup attribution component stylesheet
+  */
+@keyframes visible {
+  from {
+    opacity: 0;
+  }
+  0.1% {
+    pointer-events: auto;
+  }
+  to {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+@keyframes clickable {
+  from {
+    pointer-events: none;
+  }
+  to {
+    pointer-events: auto;
+  }
+}
+.popup-attribution {
+  pointer-events: none;
+  position: fixed;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 100;
+  display: grid;
+  animation: clickable forwards, visible forwards, visible reverse forwards;
+  animation-duration: 1ms, 1s, 1s;
+  animation-delay: 3s, 1s, 1ms;
+  animation-play-state: running, running, paused;
+  * {
+    margin: 0;
+  }
+  & * {
+    pointer-events: none;
+    animation: clickable forwards, clickable reverse forwards;
+    animation-duration: 1ms, 1ms;
+    animation-delay: 2s, 1ms;
+    animation-play-state: paused, paused;
+  }
+  *:hover &:not(:hover) {
+    animation-play-state: running, paused, paused;
+  }
+  &:hover ~ *:not(:hover),
+  * *:not(:hover) ~ &:hover {
+    animation-play-state: running, running, paused;
+    & * {
+      animation-play-state: running, paused;
+    }
+  }
+  *:not(:hover) & {
+    animation-play-state: paused, running, paused;
+  }
+  .popup-attribution__content {
+    place-self: center;
+    max-width: 588px;
+    padding: 1.25rem;
+    margin: 2rem;
+    border-radius: 1rem;
+    background-color: white;
+  }
+  .button-close:before {
+    content: "✖";
+  }
+  .popup-attribution__toggle {
+    appearance: none;
+    cursor: pointer;
+  }
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -10;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  &:has(.popup-attribution__toggle:checked) {
+    animation-play-state: paused, paused, running;
+    pointer-events: none;
+    user-select: none;
+    & * {
+      animation-play-state: running, running;
+    }
+  }
+}
+/* dark reader fallback */
+.popup-attribution .popup-attribution__content {
+  background-color: white;
+}
